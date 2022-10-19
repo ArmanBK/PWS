@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\C# scripts"
+    "\\TestApp",
+    "\\TestApp\\TestApp"
   ],
-  "SelectedNode": "\\C# scripts\\CsvReader.cs",
+  "SelectedNode": "\\TestApp\\TestApp\\TestApp.csproj",
   "PreviewInSolutionExplorer": false
 }
