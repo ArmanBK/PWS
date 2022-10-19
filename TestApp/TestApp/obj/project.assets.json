@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\gebruiker\\.nuget\\packages\\": {}
+    "C:\\Users\\jaspe\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\gebruiker\\source\\repos\\ArmanBK\\PWS\\TestApp\\TestApp\\TestApp.csproj",
+      "projectUniqueName": "C:\\Users\\jaspe\\Documents\\GitHub\\PWS\\TestApp\\TestApp\\TestApp.csproj",
       "projectName": "TestApp",
-      "projectPath": "C:\\Users\\gebruiker\\source\\repos\\ArmanBK\\PWS\\TestApp\\TestApp\\TestApp.csproj",
-      "packagesPath": "C:\\Users\\gebruiker\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\gebruiker\\source\\repos\\ArmanBK\\PWS\\TestApp\\TestApp\\obj\\",
+      "projectPath": "C:\\Users\\jaspe\\Documents\\GitHub\\PWS\\TestApp\\TestApp\\TestApp.csproj",
+      "packagesPath": "C:\\Users\\jaspe\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jaspe\\Documents\\GitHub\\PWS\\TestApp\\TestApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\gebruiker\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jaspe\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
