@@ -9,6 +9,7 @@ namespace TestApp
 
         public static void Lezen(string bestandsnaam)
         {
+            string[] csvLines = File.ReadAllLines(bestandsnaam);
             if (FileNotFoundException == true)
             {
                 Console.WriteLine("FOUT: het bestand bestaat niet");
