@@ -14,7 +14,7 @@ namespace TestApp
             }
             else if (bestandsnaam.Length > 1)
             {
-                Console.WriteLine("FOUT: Je mag maar 1 bestandsnaam opgeven");
+                Console.WriteLine("FOUT: je mag maar 1 bestandsnaam opgeven");
                 return;
             }
             Console.WriteLine("*******Welkom in TestApp*******");
