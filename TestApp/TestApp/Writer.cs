@@ -1,5 +1,13 @@
-﻿using System.Formats.Asn1;
-using System.Globalization;
-using System.Reflection.PortableExecutable;
+﻿using System;
 using System.IO;
 
+namespace TestApp
+{
+    class Writer
+    {
+        public static void Schrijven(string test)
+        {
+        }
+
+    }
+}

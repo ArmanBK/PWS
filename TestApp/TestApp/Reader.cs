@@ -8,20 +8,24 @@ namespace TestApp
         public static void Lezen(string bestandsnaam)
         {
             string[] csvLines = File.ReadAllLines(bestandsnaam);
+            Console.WriteLine("Geef een outputbestand of pad");
+            string outputbestand = Console.ReadLine();
             Console.WriteLine("Geef een delay in ms");
             int delay = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Nu uitvoeren bestand:" + bestandsnaam + " met delay:" + delay);
-            for (int i = 0; i < csvLines.Length; i++)
+            Console.WriteLine("Format: Scapula_X, Scapula_Y, Scapula_Z, Shoulder_X, Shoulder_Y, Shoulder_Z, Elbow_X, Elbow_Y, Elbow_Z, Wrist_X, Wrist_Y, Wrist_Z");
+            for (int i = 1; i < csvLines.Length; i++)
             {
                 Thread.Sleep(delay);
-                Console.WriteLine(csvLines[i]);
+                Console.WriteLine("Huidige waardes: " + csvLines[i]);
+                File.WriteAllTextAsync(outputbestand, csvLines[i]);
             }
         }
     }
-    public class Positie
+    public class Format
     {
         public string Scapula_X, Scapula_Y, Scapula_Z, Shoulder_X, Shoulder_Y, Shoulder_Z, Elbow_X, Elbow_Y, Elbow_Z, Wrist_X, Wrist_Y, Wrist_Z;
-        public Positie(string rowData)
+        public Format(string rowData)
         {
             
             string[] data = rowData.Split(';');
