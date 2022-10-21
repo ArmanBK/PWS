@@ -10,9 +10,14 @@ namespace TestApp
             string[] csvLines = File.ReadAllLines(bestandsnaam);
             Console.WriteLine("Geef een outputbestand of pad");
             string outputbestand = Console.ReadLine();
+            if (outputbestand.Length == 0)
+            {
+                Console.WriteLine("FOUT: Geef een bestandsnaam of pad op");
+                return;
+            }
             Console.WriteLine("Geef een delay in ms");
             int delay = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Nu uitvoeren bestand:" + bestandsnaam + " met delay:" + delay);
+            Console.WriteLine("Nu uitvoeren bestand:" + bestandsnaam + " schrijven naar bestand:" + outputbestand + " met delay:" + delay);
             Console.WriteLine("Format: Scapula_X, Scapula_Y, Scapula_Z, Shoulder_X, Shoulder_Y, Shoulder_Z, Elbow_X, Elbow_Y, Elbow_Z, Wrist_X, Wrist_Y, Wrist_Z");
             for (int i = 1; i < csvLines.Length; i++)
             {
