@@ -1,34 +1,26 @@
 #the combined script for the pico w's, containing a webserver, communication with the  ICM 20948 over I2C and reading out the pots
-import machine
+import network
 import time
 import struct
+from machine import Pin
+from umqtt.simple import MQTTClient
 
 #####Constants######
-#IDs
-accID = (1 << 0)
-gyrID = (1 << 1)
-magID = (1 << 2)
-
 deviceID = 0xEA
-
-#Registers
 regBank = 0x7F
 
-#Options
- #accel ranges
-gpm2 = 0x00
-gpm4 = 0x01
-gpm8 = 0x02
-gpm16 = 0x03
+mqtt_server = 'test.mosquitto.org'
+client_id = 'armankoc'
+topic_sub = b'TomsHardware'
 
- #gyro ranges
-dps250 = 0x00
-dps500 = 0x01
-dps1000 = 0x02
-dps2000 = 0x03
+########WIFI#########
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+wlan.connect("Nokia","HiGithub")
+time.sleep(5)
+print(wlan.isconnected())
 
 ######settings#######
-
 #I2C Address of the  ICM-20948
 IMU = 0x69 #alternatively 0x68 if the fuse on the back is shorted
 
@@ -36,7 +28,29 @@ IMU = 0x69 #alternatively 0x68 if the fuse on the back is shorted
 i2c = machine.I2C(0, scl = machine.Pin(1), sda = machine.Pin(0), freq = 40000)
 
 #####Functions#####
+#WiFi
+def sub_cb(topic, msg):
+    print("New message on topic {}".format(topic.decode('utf-8')))
+    msg = msg.decode('utf-8')
+    print(msg)
+    if msg == "on":
+        LED.on()
+    elif msg == "off":
+        LED.off()
 
+def mqtt_connect():
+    client = MQTTClient(client_id, mqtt_server, keepalive=60)
+    client.set_callback(sub_cb)
+    client.connect()
+    print('Connected to %s MQTT Broker'%(mqtt_server))
+    return client
+
+def reconnect():
+    print('Failed to connect to MQTT Broker. Reconnecting...')
+    time.sleep(5)
+    machine.reset()
+
+#sensor
 def ToSignedInt(unsigned):
 
     if unsigned > 32767:
@@ -61,7 +75,7 @@ def WriteReg(regAddr, data):
 
         i2c.writeto_mem(IMU, regAddr, convData)
 
-#single regAddr has multiple functionalities, therefore 4 user banks exist,
+    #single regAddr has multiple functionalities, therefore 4 user banks exist,
 def SetBank(i2c, bank):
         if bank > 3:
                 print('invalid bank id')
@@ -71,7 +85,12 @@ def SetBank(i2c, bank):
 
 
 
-######Main Code######
+######Main Code######          
+try:
+    client = mqtt_connect()
+except OSError as e:
+    reconnect()
+
 realAddr = ReadReg(0x00, 1)
 if (realAddr != bytearray((deviceID,))):
     print('communication not established, device id is', realAddr, 'and should be', deviceID)
@@ -99,7 +118,7 @@ WriteReg(0x01, 0x01)#set gyro snelheid
 time.sleep(0.0)
 print('gyrosnelheid',ReadReg(0x01, 1))
 time.sleep(0.1)
-WriteReg(0x14, 0x02)#set gyro snelheid
+WriteReg(0x14, 0x01)#accel config
 time.sleep(0.0)
 print('accelsnelheid',ReadReg(0x14, 1))
 time.sleep(0.1)
@@ -110,6 +129,7 @@ time.sleep(0.1)
 while True:
     time.sleep(0.1)
     block = ReadReg(0x2D, 12)
+    
     
     axr = ((block[0]<<8) | (block[1] & 0xFF))
     ayr = ((block[2]<<8) | (block[3] & 0xFF))
@@ -139,12 +159,12 @@ while True:
     print('gx', gx)
     print('gy', gy)
     print('gz', gz)
-    print('ax', ax)
-    print('ay', ay)
-    print('az', az)
-
+    combinedData = str(gx) + "_" + str(gy) + "_" + str(gz)
+    client.publish(b"arman", combinedData.encode("UTF-8"))
+    time.sleep(1)
 time.sleep(0.1)
 SetBank(i2c, 0)
+
 
 
 
